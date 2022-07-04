@@ -7,7 +7,7 @@ const Ticket = require('../models/ticketModel')
 // @route   GET /api/tickets
 // @access  Priviate
 const getTickets = asyncHandler(async (req, res) => {
-  // Get user using the id in the JMT
+  // Get user using the id in the JWT
   const user = await User.findById(req.user.id)
 
   if (!user) {
@@ -24,12 +24,12 @@ const getTickets = asyncHandler(async (req, res) => {
 // @route   GET /api/tickets/:id
 // @access  Priviate
 const getTicket = asyncHandler(async (req, res) => {
-  // Get user using the id in the JMT
+  // Get user using the id in the JWT
   const user = await User.findById(req.user.id)
 
   if (!user) {
     res.status(401)
-    throw new Error('User not found.')
+    throw new Error('User not found')
   }
 
   const ticket = await Ticket.findById(req.params.id)
@@ -129,19 +129,17 @@ const updateTicket = asyncHandler(async (req, res) => {
     throw new Error('Not Authorized')
   }
 
-  const updateTicket = await Ticket.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true }
-  )
+  const updateTicket = await Ticket.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  })
 
   res.status(200).json(updateTicket)
 })
 
 module.exports = {
   getTickets,
-  createTicket,
   getTicket,
+  createTicket,
   deleteTicket,
   updateTicket,
 }
