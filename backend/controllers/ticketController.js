@@ -5,7 +5,7 @@ const Ticket = require('../models/ticketModel')
 
 // @desc    Get user tickets
 // @route   GET /api/tickets
-// @access  Priviate
+// @access  Private
 const getTickets = asyncHandler(async (req, res) => {
   // Get user using the id in the JWT
   const user = await User.findById(req.user.id)
@@ -22,7 +22,7 @@ const getTickets = asyncHandler(async (req, res) => {
 
 // @desc    Get user ticket
 // @route   GET /api/tickets/:id
-// @access  Priviate
+// @access  Private
 const getTicket = asyncHandler(async (req, res) => {
   // Get user using the id in the JWT
   const user = await User.findById(req.user.id)
@@ -49,7 +49,7 @@ const getTicket = asyncHandler(async (req, res) => {
 
 // @desc    Create new ticket
 // @route   POST /api/tickets
-// @access  Priviate
+// @access  Private
 const createTicket = asyncHandler(async (req, res) => {
   const { product, description } = req.body
 
@@ -58,7 +58,7 @@ const createTicket = asyncHandler(async (req, res) => {
     throw new Error('Please add a product and description.')
   }
 
-  // Get user using the id in the JMT
+  // Get user using the id in the JWT
   const user = await User.findById(req.user.id)
 
   if (!user) {
@@ -78,9 +78,9 @@ const createTicket = asyncHandler(async (req, res) => {
 
 // @desc    Delete ticket
 // @route   DELETE /api/tickets/:id
-// @access  Priviate
+// @access  Private
 const deleteTicket = asyncHandler(async (req, res) => {
-  // Get user using the id in the JMT
+  // Get user using the id in the JWT
   const user = await User.findById(req.user.id)
 
   if (!user) {
@@ -107,9 +107,9 @@ const deleteTicket = asyncHandler(async (req, res) => {
 
 // @desc    Update ticket
 // @route   PUT /api/tickets/:id
-// @access  Priviate
+// @access  Private
 const updateTicket = asyncHandler(async (req, res) => {
-  // Get user using the id in the JMT
+  // Get user using the id in the JWT
   const user = await User.findById(req.user.id)
 
   if (!user) {
@@ -129,11 +129,13 @@ const updateTicket = asyncHandler(async (req, res) => {
     throw new Error('Not Authorized')
   }
 
-  const updateTicket = await Ticket.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  })
+  const updatedTicket = await Ticket.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  )
 
-  res.status(200).json(updateTicket)
+  res.status(200).json(updatedTicket)
 })
 
 module.exports = {
